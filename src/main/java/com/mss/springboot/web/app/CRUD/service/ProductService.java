@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.mss.springboot.web.app.CRUD.dto.ProductDto;
 import com.mss.springboot.web.app.CRUD.entity.Product;
+import com.mss.springboot.web.app.CRUD.global.exceptions.ResourcesNotFoundEx;
 import com.mss.springboot.web.app.CRUD.repository.ProductRepository;
 
 
@@ -24,13 +25,15 @@ public class ProductService {
 	
 	
 	
-	public Product getById(int id) {
-		return productRepository.findById(id).get();
+	public Product getById(int id) throws ResourcesNotFoundEx {
+		return productRepository.findById(id)
+				.orElseThrow(() -> new ResourcesNotFoundEx("Not found :("));
 	}
 	
 	
-	public Product delete(int id) {
-		Product product = productRepository.findById(id).get();
+	public Product delete(int id) throws ResourcesNotFoundEx {
+		Product product = productRepository.findById(id)
+				.orElseThrow(() -> new ResourcesNotFoundEx("Not found :("));
 		productRepository.delete(product);
 		return product;
 	}
@@ -53,12 +56,14 @@ public class ProductService {
 	
 	
 	
-	public Product update(int id, ProductDto dto) {
-		Product product = productRepository.findById(id).get();
+	public Product update(int id, ProductDto dto) throws ResourcesNotFoundEx {
+		Product product = productRepository.findById(id)
+				.orElseThrow(() -> new ResourcesNotFoundEx("Not found :("));
 		product.setName(dto.getName());
 		product.setPrice(dto.getPrice());
 		return productRepository.save(product);
 	}
+	
 	
 	
 	
