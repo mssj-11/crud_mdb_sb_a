@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.mss.springboot.web.app.CRUD.dto.ProductDto;
 import com.mss.springboot.web.app.CRUD.entity.Product;
+import com.mss.springboot.web.app.CRUD.global.exceptions.AttributeException;
 import com.mss.springboot.web.app.CRUD.global.exceptions.ResourcesNotFoundEx;
 import com.mss.springboot.web.app.CRUD.repository.ProductRepository;
 
@@ -46,7 +47,11 @@ public class ProductService {
 		return products.isEmpty() ? 1 : 
 			products.stream().max(Comparator.comparing(Product::getId)).get().getId() + 1;
 	}
-	public Product save(ProductDto dto) {
+	public Product save(ProductDto dto) throws AttributeException {
+		//	Unique Name
+		if(productRepository.existByName(dto.getName()))
+			throw new AttributeException("name already in use");
+		
 		//	Id Auto-Increment
 		int id = autoIncrement();
 		
@@ -56,9 +61,13 @@ public class ProductService {
 	
 	
 	
-	public Product update(int id, ProductDto dto) throws ResourcesNotFoundEx {
+	public Product update(int id, ProductDto dto) throws ResourcesNotFoundEx, AttributeException {
 		Product product = productRepository.findById(id)
 				.orElseThrow(() -> new ResourcesNotFoundEx("Not found :("));
+		//	If name exist
+		if(productRepository.existByName(dto.getName()) && productRepository.findByName(dto.getName()).get().getId() != id)
+			throw new AttributeException("name already in use");
+		
 		product.setName(dto.getName());
 		product.setPrice(dto.getPrice());
 		return productRepository.save(product);
