@@ -12,7 +12,7 @@ import com.mss.springboot.web.app.CRUD.entity.Product;
 public interface ProductRepository extends MongoRepository<Product, Integer>{
 	
 	
-	boolean existByName(String name);//When creating exist
+	boolean existsByName(String name);//When creating exist
 	
 	Optional<Product> findByName(String name);////When updating exist
 	

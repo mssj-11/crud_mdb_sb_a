@@ -41,6 +41,7 @@ public class ProductService {
 	
 	
 	
+	
 	//	Method ID Auto-Increment
 	private int autoIncrement() {
 		List<Product> products = productRepository.findAll();
@@ -49,8 +50,8 @@ public class ProductService {
 	}
 	public Product save(ProductDto dto) throws AttributeException {
 		//	Unique Name
-		if(productRepository.existByName(dto.getName()))
-			throw new AttributeException("name already in use");
+		if(productRepository.existsByName(dto.getName()))
+			throw new AttributeException("NAME already in use");
 		
 		//	Id Auto-Increment
 		int id = autoIncrement();
@@ -65,8 +66,8 @@ public class ProductService {
 		Product product = productRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Not found :("));
 		//	If name exist
-		if(productRepository.existByName(dto.getName()) && productRepository.findByName(dto.getName()).get().getId() != id)
-			throw new AttributeException("name already in use");
+		if(productRepository.existsByName(dto.getName()) && productRepository.findByName(dto.getName()).get().getId() != id)
+			throw new AttributeException("NAME already in use");
 		
 		product.setName(dto.getName());
 		product.setPrice(dto.getPrice());

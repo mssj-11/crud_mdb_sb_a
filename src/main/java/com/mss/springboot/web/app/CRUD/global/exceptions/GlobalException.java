@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.mss.springboot.web.app.CRUD.global.dto.MessageDto;
 
 
-
 @RestControllerAdvice
 public class GlobalException {
 	
@@ -17,7 +16,13 @@ public class GlobalException {
 	public ResponseEntity<MessageDto> throwNotFoundException(ResourceNotFoundException e){
 		return ResponseEntity.status(HttpStatus.NOT_FOUND)
 				.body(new MessageDto(HttpStatus.NOT_FOUND, e.getMessage()));
-		
+	}
+	
+	
+	@ExceptionHandler(AttributeException.class)
+	public ResponseEntity<MessageDto> throwAttributeException(AttributeException e){
+		return ResponseEntity.badRequest()
+				.body(new MessageDto(HttpStatus.BAD_REQUEST, e.getMessage()));
 	}
 	
 	
