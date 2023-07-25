@@ -10,13 +10,13 @@ import com.mss.springboot.web.app.CRUD.global.dto.MessageDto;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class AttributeException extends Exception{
-
+	
 	public AttributeException(String message) {
 		super(message);
 	}
 	
 	
-	@ExceptionHandler(ResourcesNotFoundEx.class)
+	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<MessageDto> throwAttributeException(AttributeException e){
 		return ResponseEntity.badRequest().body(new MessageDto(HttpStatus.BAD_REQUEST, e.getMessage()));
 	}

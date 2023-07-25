@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mss.springboot.web.app.CRUD.dto.ProductDto;
 import com.mss.springboot.web.app.CRUD.entity.Product;
 import com.mss.springboot.web.app.CRUD.global.exceptions.AttributeException;
-import com.mss.springboot.web.app.CRUD.global.exceptions.ResourcesNotFoundEx;
+import com.mss.springboot.web.app.CRUD.global.exceptions.ResourceNotFoundException;
 import com.mss.springboot.web.app.CRUD.service.ProductService;
 
 
@@ -36,7 +36,7 @@ public class ProductController {
 	
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Product> getById(@PathVariable("id") int id) throws ResourcesNotFoundEx{
+	public ResponseEntity<Product> getById(@PathVariable("id") int id) throws ResourceNotFoundException{
 		return ResponseEntity.ok(productService.getById(id));
 	} 
 	
@@ -48,13 +48,13 @@ public class ProductController {
 	
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Product> update(@PathVariable("id") int id, @RequestBody ProductDto dto) throws ResourcesNotFoundEx, AttributeException{
+	public ResponseEntity<Product> update(@PathVariable("id") int id, @RequestBody ProductDto dto) throws ResourceNotFoundException, AttributeException{
 		return ResponseEntity.ok(productService.update(id, dto));
 	}
 	
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Product> delete(@PathVariable("id") int id) throws ResourcesNotFoundEx{
+	public ResponseEntity<Product> delete(@PathVariable("id") int id) throws ResourceNotFoundException{
 		return ResponseEntity.ok(productService.delete(id));
 	}
 	

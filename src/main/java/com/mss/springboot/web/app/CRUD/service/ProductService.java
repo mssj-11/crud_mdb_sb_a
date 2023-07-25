@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.mss.springboot.web.app.CRUD.dto.ProductDto;
 import com.mss.springboot.web.app.CRUD.entity.Product;
 import com.mss.springboot.web.app.CRUD.global.exceptions.AttributeException;
-import com.mss.springboot.web.app.CRUD.global.exceptions.ResourcesNotFoundEx;
+import com.mss.springboot.web.app.CRUD.global.exceptions.ResourceNotFoundException;
 import com.mss.springboot.web.app.CRUD.repository.ProductRepository;
 
 
@@ -26,15 +26,15 @@ public class ProductService {
 	
 	
 	
-	public Product getById(int id) throws ResourcesNotFoundEx {
+	public Product getById(int id) throws ResourceNotFoundException{
 		return productRepository.findById(id)
-				.orElseThrow(() -> new ResourcesNotFoundEx("Not found :("));
+				.orElseThrow(() -> new ResourceNotFoundException("Not found :("));
 	}
 	
 	
-	public Product delete(int id) throws ResourcesNotFoundEx {
+	public Product delete(int id) throws ResourceNotFoundException{
 		Product product = productRepository.findById(id)
-				.orElseThrow(() -> new ResourcesNotFoundEx("Not found :("));
+				.orElseThrow(() -> new ResourceNotFoundException("Not found :("));
 		productRepository.delete(product);
 		return product;
 	}
@@ -61,9 +61,9 @@ public class ProductService {
 	
 	
 	
-	public Product update(int id, ProductDto dto) throws ResourcesNotFoundEx, AttributeException {
+	public Product update(int id, ProductDto dto) throws ResourceNotFoundException, AttributeException{
 		Product product = productRepository.findById(id)
-				.orElseThrow(() -> new ResourcesNotFoundEx("Not found :("));
+				.orElseThrow(() -> new ResourceNotFoundException("Not found :("));
 		//	If name exist
 		if(productRepository.existByName(dto.getName()) && productRepository.findByName(dto.getName()).get().getId() != id)
 			throw new AttributeException("name already in use");

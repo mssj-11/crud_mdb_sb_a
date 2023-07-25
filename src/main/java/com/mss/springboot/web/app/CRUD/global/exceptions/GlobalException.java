@@ -13,8 +13,8 @@ import com.mss.springboot.web.app.CRUD.global.dto.MessageDto;
 public class GlobalException {
 	
 	
-	@ExceptionHandler(ResourcesNotFoundEx.class)
-	public ResponseEntity<MessageDto> throwNotFoundException(ResourcesNotFoundEx e){
+	@ExceptionHandler(ResourceNotFoundException.class)
+	public ResponseEntity<MessageDto> throwNotFoundException(ResourceNotFoundException e){
 		return ResponseEntity.status(HttpStatus.NOT_FOUND)
 				.body(new MessageDto(HttpStatus.NOT_FOUND, e.getMessage()));
 		
